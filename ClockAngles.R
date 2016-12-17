@@ -31,6 +31,3 @@ ggplot(results_ordered, aes(x=time, y=angle, group=1)) +
   theme_bw() + 
   labs(x = "Time", y = "Angle (°C)") + 
   theme(axis.text.x = blue.bold.text, axis.text.y=blue.bold.text)
-
-
-## axis.text.x for x axis only
