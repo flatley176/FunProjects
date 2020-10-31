@@ -4,14 +4,24 @@ library(sf)
 theme_set(theme_bw())
 library("rnaturalearth")
 library("rnaturalearthdata")
-library(ggmap)
 library(glue)
 world <- ne_countries(scale = "medium", returnclass = "sf")
 class(world)
+wd <- "/Users/sr/git_personal/FunProjects/trivia"
+setwd(wd)
+data <- read.table("places.txt", header=T)
 
-sites <- data.frame(latitude = c(42.5, 38.0), 
-                     longitude = c(23.5, 23.6))
-ggplot(data = world) +
-  geom_sf() +
-  geom_point(data = sites, aes(x = longitude, y = latitude), size = 4, shape = 23, fill = "darkred") +
-  coord_sf(xlim = c(10,30), ylim = c(35,44), expand = FALSE)
+questions <- unique(data$Question)
+
+sapply(questions, function(q) {
+	lt <- data[data$Question==q,]$Latitude
+	lg <- data[data$Question==q,]$Longitude
+	buffer <- 20
+	sites <- data.frame(latitude = lt, longitude = lg)
+	p <- ggplot(data = world) +
+  		geom_sf() +
+  		geom_point(data = sites, aes(x = longitude, y = latitude), size = 4, shape = 23, fill = "darkred") +
+  		coord_sf(xlim = c(min(sites$longitude)-buffer,max(sites$longitude)+buffer), ylim = c(min(sites$latitude)-buffer, max(sites$latitude)+buffer), expand = FALSE)
+	ggsave(paste("question_", q, ".png", sep=""), p, width=7, height=7, units="in")
+})
+
