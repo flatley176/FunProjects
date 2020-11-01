@@ -1,0 +1,2 @@
+Question Place Latitude Longitude
+2a Nouakchott 18.1 -15.95

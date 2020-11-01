@@ -5,11 +5,15 @@ theme_set(theme_bw())
 library("rnaturalearth")
 library("rnaturalearthdata")
 library(glue)
-world <- ne_countries(scale = "medium", returnclass = "sf")
+world <- ne_countries(scale = 110, returnclass = "sf")
 class(world)
 wd <- "/Users/sr/git_personal/FunProjects/trivia"
 setwd(wd)
-data <- read.table("places.txt", header=T)
+args = commandArgs(trailingOnly=TRUE)
+if(length(args)!=1) {
+    stop("places data frame needed", call.=FALSE)
+}
+data <- read.table(args[1], header=T)
 
 questions <- unique(data$Question)
 

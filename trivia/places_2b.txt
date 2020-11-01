@@ -1,0 +1,2 @@
+Question Place Latitude Longitude
+2b Baku 40.4 49.85
