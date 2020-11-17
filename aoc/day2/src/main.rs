@@ -5,38 +5,37 @@ use clap::{Arg,App};
 
 
 struct ElfBox {
-    length: u32,
-    width: u32,
-    height: u32,
-  //  sides: [u32; 3]
+    sides: [u32; 3]
 }
 
 impl ElfBox {
-    //fn new_box(a: u32, b: u32, c: u32) -> ElfBox {
-     //   sides = [a, b, c]
-     //   sides.sort();
-   // }
+    // static method, initializing with a sorted dimension array
+    fn new_box(a: u32, b: u32, c: u32) -> ElfBox {
+        let mut _tempbox = ElfBox { 
+            sides: [a, b, c]
+        };
+        _tempbox.sides.sort();
+        _tempbox
+    }
 
     fn get_total_surface_area(&self) -> u32 {
-        let surface_area: u32 = 2*(self.length*self.width + 
-                                   self.width*self.height + 
-                                   self.height*self.length);
-        surface_area 
+        let surface_area: u32 = 2 * (self.sides[0] * self.sides[1] +
+                                     self.sides[1] * self.sides[2] +
+                                     self.sides[2] * self.sides[0]);   
+       surface_area 
     }
+    // sorting => the first two values are always going to be the smallest 2D/3D units
     fn get_smallest_area(&self) -> u32 {
-        let mut sides = [self.length, self.width, self.height];
-        sides.sort();
-        let smallest_area: u32 = sides[0] * sides[1];
+        let smallest_area: u32 = self.sides[0] * self.sides[1];
         smallest_area
     }
     fn get_smallest_perimeter(&self) -> u32 {
-        let mut sides = [self.length, self.width, self.height];
-        sides.sort();
-        let smallest_perimeter: u32 = sides[0] + sides[0] + sides[1] + sides[1];
+        let smallest_perimeter: u32 = 2 * (self.sides[0] + self.sides[1]);
         smallest_perimeter
     }
     fn get_volume(&self) -> u32 {
-        self.length * self.width * self.height
+        let volume: u32 = self.sides[0] * self.sides[1] * self.sides[2];
+        volume
     }
 }
 
@@ -56,11 +55,10 @@ fn main() {
     for line in buffered_file.lines() {
         let dim: String = line.unwrap();
         let dimensions: Vec<&str> = dim.split("x").collect();
-        let b = ElfBox {
-            length: dimensions[0].parse().unwrap(),
-            width: dimensions[1].parse().unwrap(),
-            height: dimensions[2].parse().unwrap()   
-        };
+        let b = ElfBox::new_box(
+                    dimensions[0].parse().unwrap(),
+                    dimensions[1].parse().unwrap(), 
+                    dimensions[2].parse().unwrap());
         let current_box_paper_surface_area: u32 = b.get_total_surface_area();
         let current_box_paper_slack: u32 = b.get_smallest_area();
         let current_box_volume: u32 = b.get_volume();
