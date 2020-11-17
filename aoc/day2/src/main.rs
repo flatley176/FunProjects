@@ -24,18 +24,21 @@ impl ElfBox {
                                      self.sides[2] * self.sides[0]);   
        surface_area 
     }
+
+    fn get_volume(&self) -> u32 {
+        let volume: u32 = self.sides[0] * self.sides[1] * self.sides[2];
+        volume
+    }
+    
     // sorting => the first two values are always going to be the smallest 2D/3D units
     fn get_smallest_area(&self) -> u32 {
         let smallest_area: u32 = self.sides[0] * self.sides[1];
         smallest_area
     }
+
     fn get_smallest_perimeter(&self) -> u32 {
         let smallest_perimeter: u32 = 2 * (self.sides[0] + self.sides[1]);
         smallest_perimeter
-    }
-    fn get_volume(&self) -> u32 {
-        let volume: u32 = self.sides[0] * self.sides[1] * self.sides[2];
-        volume
     }
 }
 
