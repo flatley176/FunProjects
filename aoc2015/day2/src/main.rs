@@ -64,10 +64,10 @@ fn main() {
                     dimensions[2].parse().unwrap());
         let current_box_paper_surface_area: u32 = b.get_total_surface_area();
         let current_box_paper_slack: u32 = b.get_smallest_area();
-        let current_box_volume: u32 = b.get_volume();
-        let current_box_smallest_perimeter: u32 = b.get_smallest_perimeter();
+        let current_box_bow_needs: u32 = b.get_volume();
+        let current_box_ribbon_needs: u32 = b.get_smallest_perimeter();
         running_sum_paper = running_sum_paper + current_box_paper_surface_area + current_box_paper_slack; 
-        running_sum_ribbon = running_sum_ribbon + current_box_volume + current_box_smallest_perimeter;       
+        running_sum_ribbon = running_sum_ribbon + current_box_bow_needs + current_box_ribbon_needs;       
         println!("Working on box {}, running paper needs up to {}, total ribbon needs up to {}", dim, running_sum_paper, running_sum_ribbon);
     }
 }
