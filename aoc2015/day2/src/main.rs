@@ -22,7 +22,7 @@ impl ElfBox {
         let surface_area: u32 = 2 * (self.sides[0] * self.sides[1] +
                                      self.sides[1] * self.sides[2] +
                                      self.sides[2] * self.sides[0]);   
-       surface_area 
+        surface_area 
     }
 
     fn get_volume(&self) -> u32 {
@@ -43,7 +43,7 @@ impl ElfBox {
 }
 
 fn main() {
-    let argument_set = App::new("AOC: Day 2")
+    let argument_set: clap::ArgMatches = App::new("AOC: Day 2")
                             .arg(Arg::with_name("input")
                                 .short("f")
                                 .long("input-file")
@@ -51,17 +51,17 @@ fn main() {
                                 .required(true))
                             .get_matches();
     let input_file: &str = argument_set.value_of("input").unwrap();
-    let file_handle = File::open(input_file).expect("unable to open");
-    let buffered_file = BufReader::new(file_handle);
+    let file_handle: File = File::open(input_file).unwrap();
+    let buffered_file: BufReader<File> = BufReader::new(file_handle);
     let mut running_sum_paper: u32 = 0;  
     let mut running_sum_ribbon: u32 = 0;  
     for line in buffered_file.lines() {
         let dim: String = line.unwrap();
         let dimensions: Vec<&str> = dim.split("x").collect();
-        let b = ElfBox::new_box(
-                    dimensions[0].parse().unwrap(),
-                    dimensions[1].parse().unwrap(), 
-                    dimensions[2].parse().unwrap());
+        let b: ElfBox = ElfBox::new_box(
+                    dimensions[0].parse::<u32>().unwrap(),
+                    dimensions[1].parse::<u32>().unwrap(), 
+                    dimensions[2].parse::<u32>().unwrap());
         let current_box_paper_surface_area: u32 = b.get_total_surface_area();
         let current_box_paper_slack: u32 = b.get_smallest_area();
         let current_box_bow_needs: u32 = b.get_volume();
@@ -72,3 +72,4 @@ fn main() {
     }
 }
 
+// tests
